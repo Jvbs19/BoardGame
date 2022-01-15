@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileGenerator : MonoBehaviour
+public class GridGenerator : MonoBehaviour
 {
     [SerializeField]
     Transform Grid;
