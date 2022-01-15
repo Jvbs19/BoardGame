@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3222835907795305961}
+  - component: {fileID: 6745860855051225199}
   - component: {fileID: 1723299618}
   - component: {fileID: 315661130224480802}
-  - component: {fileID: 6745860855051225199}
   m_Layer: 0
   m_Name: PlayerPeon
   m_TagString: Player
@@ -35,6 +35,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6745860855051225199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3222835907795305960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62dd17e820acd3f41b9d666b4e313a69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 11400000, guid: 22ab54afb1011034aa2234cd1824ad13, type: 2}
 --- !u!65 &1723299618
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46,8 +59,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.65, z: 1.65}
-  m_Center: {x: 0, y: 0.7, z: 0}
+  m_Size: {x: 0.6, y: 1.5, z: 0.6}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!54 &315661130224480802
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -64,18 +77,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6745860855051225199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3222835907795305960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62dd17e820acd3f41b9d666b4e313a69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3222835907005744590
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -47,9 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc5b4f3f8375174e86db0a9e736eafb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectInTile: {fileID: 0}
-  AdjacentTiles: []
+  objectInTile: {fileID: 0}
+  adjacentTiles: []
   castDistance: 1.2
+  playerStart: 0
 --- !u!65 &5174964996829630717
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61,8 +62,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1589792, y: 1.2, z: 0.9641185}
-  m_Center: {x: 0.0246872, y: 0.44999993, z: 0.01640594}
+  m_Size: {x: 1.5, y: 0.8, z: 1.5}
+  m_Center: {x: 0, y: 0.01, z: 0}
 --- !u!54 &5111041222095391958
 Rigidbody:
   m_ObjectHideFlags: 0

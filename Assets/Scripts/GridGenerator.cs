@@ -36,13 +36,9 @@ public class GridGenerator : MonoBehaviour
                 tile.transform.parent = Grid;
 
                 if(z % 2 == 0) 
-                {
                     tile.transform.position = new Vector3(x * tileXOffset, 0, z * tileZOffset);
-                }
                 else 
-                {
                     tile.transform.position = new Vector3(x * tileXOffset + tileXOffset / 2, 0, z * tileZOffset);
-                }
             }
         }
     }

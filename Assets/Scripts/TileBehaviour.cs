@@ -23,12 +23,21 @@ public class TileBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Player")
+        {
+            PlayerBehaviour playerBehav = col.GetComponent<PlayerBehaviour>();
             objectInTile = col.transform.gameObject;
+            playerBehav.SetMyCurrentTile(this.transform.gameObject);
+
+        }
     }
     private void OnTriggerExit(Collider col)
     {
         if (col.tag == "Player")
+        {
             objectInTile = null;
+            PlayerBehaviour playerBehav = col.GetComponent<PlayerBehaviour>();
+            playerBehav.SetMyCurrentTile(null);
+        }
     }
     #endregion
 
@@ -70,10 +79,18 @@ public class TileBehaviour : MonoBehaviour
                 if (!adjacentTiles.Contains(hit.transform.gameObject))
                 {
                     adjacentTiles.Add(hit.transform.gameObject);
-                    Debug.Log("Adicionei " + hit.transform.name);
                 }
             }
         }
     }
     #endregion
+
+    public GameObject GetObjectInTile() { return objectInTile; }
+    public bool isAdjacent(GameObject tile) 
+    {
+        if (adjacentTiles.Contains(tile))
+            return true;
+        else
+            return false;
+    }
 }
