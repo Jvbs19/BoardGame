@@ -31,7 +31,6 @@ public class ItemBehaviour : MonoBehaviour
         Debug.Log("Player: " + player.name + " Used Item " + status.name);
         Destroy(this.gameObject);
     }
-
     public void SetupItem()
     {
         if (status.GetTier() == 3)
@@ -51,6 +50,7 @@ public class ItemBehaviour : MonoBehaviour
         if (col.tag == "Player")
         {
             PlayerBehaviour playerBehav = col.GetComponent<PlayerBehaviour>();
+            playerBehav.SetUsingItem(true);
             UseItem(playerBehav);
         }
     }

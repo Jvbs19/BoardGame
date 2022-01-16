@@ -97,6 +97,5 @@ public class TileBehaviour : MonoBehaviour
             return false;
     }
     public void SetPlayerStart(bool v) { playerStart = v; }
-
     public bool IsStartPosition() { return playerStart; }
 }

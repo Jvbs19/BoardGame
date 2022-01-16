@@ -20,16 +20,30 @@ public class GameMaster : MonoBehaviour
     int MaxPlayerInGame = 2;
 
     int playingNumber;
+
+    [Header("UI")]
+    [SerializeField]
+    PlayerUIBehaviour PlayerUI;
     void Start()
     {
         StartCoroutine(SetupPlayers());
     }
     void Update()
     {
+        if (currentPlayingPlayer != null)
+            CheckUp();
+    }
+    void CheckUp()
+    {
         if (Input.GetMouseButtonDown(0))
             MovimentCast();
-    }
 
+        if (currentPlayingPlayer.GetUsingItem())
+        {
+            SetPlayerUI();
+            currentPlayingPlayer.SetUsingItem(false);
+        }
+    }
     #region Game Actions
     IEnumerator SetupPlayers()
     {
@@ -45,17 +59,30 @@ public class GameMaster : MonoBehaviour
 
         playersInGame = GameObject.FindGameObjectsWithTag("Player");
 
+        for (int i = 0; i < playersInGame.Length; i++)
+        {
+            yield return new WaitUntil(playersInGame[i].GetComponent<PlayerBehaviour>().IsSetupCompleted);
+        }
+
         if (playersInGame[1].GetComponent<PlayerBehaviour>().GetSpeed() > playersInGame[0].GetComponent<PlayerBehaviour>().GetSpeed())
         {
             currentPlayingPlayer = playersInGame[1].GetComponent<PlayerBehaviour>();
             playingNumber = 1;
+
+            playersInGame[1].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
+            playersInGame[0].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
         }
         else
         {
             currentPlayingPlayer = playersInGame[0].GetComponent<PlayerBehaviour>();
             playingNumber = 0;
+
+            playersInGame[0].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
+            playersInGame[1].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
         }
 
+        
+        SetPlayerUI();
         SwitchCameraTarget();
     }
     void MovimentCast()
@@ -82,6 +109,7 @@ public class GameMaster : MonoBehaviour
                             return;
 
                     currentPlayingPlayer.MovePlayer(hit.transform);
+                    SetPlayerUI();
 
                     if (!currentPlayingPlayer.CanMovePlayer())
                         EndTurn();
@@ -94,6 +122,7 @@ public class GameMaster : MonoBehaviour
         Debug.Log("Turn Ended");
         ChangeCurrentPlayer();
         SwitchCameraTarget();
+        SetPlayerUI();
     }
     #endregion
 
@@ -111,6 +140,11 @@ public class GameMaster : MonoBehaviour
 
         currentPlayingPlayer = playersInGame[playingNumber].GetComponent<PlayerBehaviour>();
         currentPlayingPlayer.ResetTurnStatus();
+    }
+
+    public void SetPlayerUI()
+    {
+        PlayerUI.SetupPlayerUI(currentPlayingPlayer.GetName(), currentPlayingPlayer.GetHP().ToString(), currentPlayingPlayer.GetDices().ToString(), currentPlayingPlayer.GetAtk().ToString(), currentPlayingPlayer.GetHits().ToString(), currentPlayingPlayer.GetMoviment().ToString(), currentPlayingPlayer.GetSpeed().ToString());
     }
     #endregion
 

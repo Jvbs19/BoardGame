@@ -12,7 +12,6 @@ public class GridGenerator : MonoBehaviour
     [SerializeField]
     List<GameObject> gridTiles;
 
-
     [Header("Parametrs")]
     [SerializeField]
     [Range(3, 999)]
@@ -60,9 +59,7 @@ public class GridGenerator : MonoBehaviour
         }
         isGridComplete = true;
     }
-
     public bool IsGridComplete() { return isGridComplete; }
-
     public Transform[] GetPlayerStartPositions() 
     {
         Transform[] startPos = new Transform[2];

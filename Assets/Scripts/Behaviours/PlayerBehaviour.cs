@@ -21,8 +21,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     GameObject myTile;
 
-    bool hasAttacked, isDead;
+    bool canAttack, isDead, usingItem;
 
+    bool SetupCompleted;
     void Start() { StatusSetup(); }
 
     #region Setup
@@ -37,6 +38,8 @@ public class PlayerBehaviour : MonoBehaviour
         maxHits = status.GetPlayerHits();
 
         ResetAllGameStatus();
+
+        SetupCompleted = true;
     }
     public void SetMyCurrentTile(GameObject tile) { myTile = tile; }
     public GameObject GetMyCurrentTile() { return myTile; }
@@ -121,10 +124,23 @@ public class PlayerBehaviour : MonoBehaviour
     #endregion
 
     #region Get
-    public float GetSpeed()
-    {
-        return currentSpeed;
-    }
+    public string GetName() { return charName; }
+    public int GetHP() { return currentHP; }
+    public float GetSpeed() { return currentSpeed; }
+    public float GetAtk() { return currentAttack; }
+    public int GetMoviment() { return movimentsLeft; }
+    public int GetDices() { return currentDices; }
+    public int GetHits() { return currentHits; }
+    public bool GetCanAttack() { return canAttack; }
+    public bool GetIsDead() { return isDead; }
+    public bool GetUsingItem() { return usingItem; }
+    public bool IsSetupCompleted() { return SetupCompleted; }
+    #endregion
+
+    #region Set
+    public void SetCanAttack(bool atk) { canAttack = atk; }
+    public void SetIsDead(bool dead) { isDead = dead; }
+    public void SetUsingItem(bool use) { usingItem = use; }
     #endregion
 
     #endregion
