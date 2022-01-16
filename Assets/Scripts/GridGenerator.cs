@@ -9,8 +9,10 @@ public class GridGenerator : MonoBehaviour
     [SerializeField]
     GameObject tilePrefab;
     [SerializeField]
+    [Range(3, 999)]
     int mapWidth = 16;
     [SerializeField]
+    [Range(3, 999)]
     int mapHeight = 16;
 
 

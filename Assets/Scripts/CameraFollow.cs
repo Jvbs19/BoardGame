@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         if (target != null)
-            transform.position = Vector3.Lerp(this.transform.position, new Vector3(target.position.x, this.transform.position.y, target.position.z), 1f);
+            transform.position = Vector3.Lerp(this.transform.position, new Vector3(target.position.x, this.transform.position.y, target.position.z), 2f);
     }
     public void SwitchTarget(Transform newTarget) { target = newTarget; }
 }

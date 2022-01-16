@@ -7,12 +7,17 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField]
     PlayerStatus status;
 
-
+    #region CharacterStatus
+    
     string charName;
     int hp;
     float attack;
     int maxMoviment, movimentsLeft;
     float speed;
+    int dices;
+    int hits;
+    
+    #endregion
 
     GameObject myTile;
 
@@ -32,7 +37,9 @@ public class PlayerBehaviour : MonoBehaviour
         maxMoviment = status.GetPlayerMoviment();
         speed = status.GetPlayerSpeed();
         attack = status.GetPlayerAttack();
-
+        dices = status.GetPlayerDices();
+        hits = status.GetPlayerHits();
+        
         movimentsLeft = maxMoviment;
     }
     public void SetMyCurrentTile(GameObject tile) { myTile = tile; }

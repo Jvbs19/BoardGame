@@ -15,10 +15,16 @@ public class PlayerStatus : ScriptableObject
     int Moviment;
     [SerializeField]
     float Speed;
+    [SerializeField]
+    int Dices;
+    [SerializeField]
+    int Hits;
 
     public string GetPlayerName() { return Name; }
-    public int GetPlayerHP() { return HP; }
-    public float GetPlayerAttack() { return Attack; }
-    public int GetPlayerMoviment() { return Moviment; }
     public float GetPlayerSpeed() { return Speed; }
+    public float GetPlayerAttack() { return Attack; }
+    public int GetPlayerHP() { return HP; }
+    public int GetPlayerMoviment() { return Moviment; }
+    public int GetPlayerHits() { return Hits; }
+    public int GetPlayerDices() { return Dices; }
 }

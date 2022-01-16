@@ -17,6 +17,7 @@ public class GameMaster : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             MovimentCast();
     }
+
     void MovimentCast()
     {
         if (!currentPlayingPlayer.CanMovePlayer())
