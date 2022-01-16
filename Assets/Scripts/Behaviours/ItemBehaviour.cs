@@ -21,7 +21,6 @@ public class ItemBehaviour : MonoBehaviour
 
     public void UseItem(PlayerBehaviour player)
     {
-
         player.AddAtack(attackBonus);
         player.AddDices(diceBonus);
         player.AddHits(hitBonus);

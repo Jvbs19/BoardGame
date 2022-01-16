@@ -25,11 +25,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Start() { StatusSetup(); }
 
-    void Update()
-    {
-
-    }
-
     #region Setup
     void StatusSetup()
     {
@@ -51,15 +46,9 @@ public class PlayerBehaviour : MonoBehaviour
     public bool CanMovePlayer()
     {
         if (movimentsLeft > 0)
-        {
-            Debug.Log("Can Still Move");
             return true;
-        }
         else
-        {
-            Debug.Log("Cannot Move Anymore");
             return false;
-        }
     }
     public void MovePlayer(Transform Direction)
     {
@@ -87,7 +76,7 @@ public class PlayerBehaviour : MonoBehaviour
         currentDices = maxDices;
         currentHits = maxHits;
     }
-    public void ResetTurnStatus() 
+    public void ResetTurnStatus()
     {
         movimentsLeft = maxMoviment;
         currentSpeed = maxSpeed;
@@ -128,6 +117,13 @@ public class PlayerBehaviour : MonoBehaviour
     public void AddHits(int i)
     {
         currentHits += i;
+    }
+    #endregion
+
+    #region Get
+    public float GetSpeed()
+    {
+        return currentSpeed;
     }
     #endregion
 

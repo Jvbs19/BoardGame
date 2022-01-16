@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] GridGenerator gridGenerator;
     [SerializeField] Camera cam;
     [SerializeField] GameObject[] playersInGame;
-    [SerializeField] PlayerBehaviour currentPlayingPlayer;
-    [SerializeField] LayerMask mouseCastLayer; 
+    [SerializeField] LayerMask mouseCastLayer;
+
+    [Header("Spawn")]
+    [SerializeField]
+    GameObject playerPrefab;
+
+    Transform[] startingPos;
+
+    PlayerBehaviour currentPlayingPlayer;
+    int MaxPlayerInGame = 2;
+
+    int playingNumber;
     void Start()
     {
-        playersInGame = GameObject.FindGameObjectsWithTag("Player");
-        currentPlayingPlayer = playersInGame[0].GetComponent<PlayerBehaviour>();
+        StartCoroutine(SetupPlayers());
     }
     void Update()
     {
@@ -19,6 +30,34 @@ public class GameMaster : MonoBehaviour
             MovimentCast();
     }
 
+    #region Game Actions
+    IEnumerator SetupPlayers()
+    {
+        yield return new WaitUntil(gridGenerator.IsGridComplete);
+
+        startingPos = gridGenerator.GetPlayerStartPositions();
+
+        for (int i = 0; i < MaxPlayerInGame; i++)
+        {
+            GameObject player = Instantiate(playerPrefab);
+            playerPrefab.transform.position = new Vector3(startingPos[i].position.x, playerPrefab.transform.position.y, startingPos[i].position.z);
+        }
+
+        playersInGame = GameObject.FindGameObjectsWithTag("Player");
+
+        if (playersInGame[1].GetComponent<PlayerBehaviour>().GetSpeed() > playersInGame[0].GetComponent<PlayerBehaviour>().GetSpeed())
+        {
+            currentPlayingPlayer = playersInGame[1].GetComponent<PlayerBehaviour>();
+            playingNumber = 1;
+        }
+        else
+        {
+            currentPlayingPlayer = playersInGame[0].GetComponent<PlayerBehaviour>();
+            playingNumber = 0;
+        }
+
+        SwitchCameraTarget();
+    }
     void MovimentCast()
     {
         if (!currentPlayingPlayer.CanMovePlayer())
@@ -34,7 +73,6 @@ public class GameMaster : MonoBehaviour
         {
             if (hit.transform.tag == "Tile")
             {
-                Debug.Log("Hit tile");
                 TileBehaviour tile = hit.transform.GetComponent<TileBehaviour>();
 
                 if (tile.isAdjacent(currentPlayingPlayer.GetMyCurrentTile()))
@@ -42,9 +80,11 @@ public class GameMaster : MonoBehaviour
                     if (tile.GetObjectInTile() != null)
                         if (tile.GetObjectInTile().tag == "Player")
                             return;
-                        
+
                     currentPlayingPlayer.MovePlayer(hit.transform);
-                    Debug.Log("Player Moved");
+
+                    if (!currentPlayingPlayer.CanMovePlayer())
+                        EndTurn();
                 }
             }
         }
@@ -52,6 +92,26 @@ public class GameMaster : MonoBehaviour
     void EndTurn()
     {
         Debug.Log("Turn Ended");
+        ChangeCurrentPlayer();
+        SwitchCameraTarget();
+    }
+    #endregion
+
+    #region Assistents
+    public void SwitchCameraTarget()
+    {
         cam.GetComponent<CameraFollow>().SwitchTarget(currentPlayingPlayer.transform);
     }
+
+    public void ChangeCurrentPlayer()
+    {
+        playingNumber++;
+        if (playingNumber > 1)
+            playingNumber = 0;
+
+        currentPlayingPlayer = playersInGame[playingNumber].GetComponent<PlayerBehaviour>();
+        currentPlayingPlayer.ResetTurnStatus();
+    }
+    #endregion
+
 }

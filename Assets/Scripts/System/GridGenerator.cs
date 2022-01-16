@@ -10,7 +10,8 @@ public class GridGenerator : MonoBehaviour
     [SerializeField]
     GameObject tilePrefab;
     [SerializeField]
-    GameObject playerPrefab;
+    List<GameObject> gridTiles;
+
 
     [Header("Parametrs")]
     [SerializeField]
@@ -22,8 +23,6 @@ public class GridGenerator : MonoBehaviour
 
     float tileXOffset = 1.8f;
     float tileZOffset = 1.5f;
-
-    List<GameObject> gridTiles;
 
     bool isGridComplete;
     void Start()
@@ -55,8 +54,28 @@ public class GridGenerator : MonoBehaviour
                     tile.GetComponent<TileBehaviour>().SetPlayerStart(true);
                     tile.name += " START";
                 }
+
+                gridTiles.Add(tile);
             }
         }
         isGridComplete = true;
+    }
+
+    public bool IsGridComplete() { return isGridComplete; }
+
+    public Transform[] GetPlayerStartPositions() 
+    {
+        Transform[] startPos = new Transform[2];
+        int i = 0;
+        foreach (GameObject tile in gridTiles)
+        {
+            if (tile.GetComponent<TileBehaviour>().IsStartPosition()) 
+            {
+                startPos[i] = tile.transform;
+                i++;
+            }
+        }
+
+        return startPos;
     }
 }

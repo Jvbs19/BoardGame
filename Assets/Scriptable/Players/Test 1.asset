@@ -15,5 +15,7 @@ MonoBehaviour:
   Name: Test 1
   HP: 20
   Attack: 5
-  Moviment: 100
+  Moviment: 3
   Speed: 8
+  Dices: 0
+  Hits: 0
