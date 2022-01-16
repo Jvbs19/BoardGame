@@ -7,6 +7,7 @@ public class GameMaster : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] GameObject[] playersInGame;
     [SerializeField] PlayerBehaviour currentPlayingPlayer;
+    [SerializeField] LayerMask mouseCastLayer; 
     void Start()
     {
         playersInGame = GameObject.FindGameObjectsWithTag("Player");
@@ -29,10 +30,11 @@ public class GameMaster : MonoBehaviour
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit))//, mouseCastLayer))
         {
             if (hit.transform.tag == "Tile")
             {
+                Debug.Log("Hit tile");
                 TileBehaviour tile = hit.transform.GetComponent<TileBehaviour>();
 
                 if (tile.isAdjacent(currentPlayingPlayer.GetMyCurrentTile()))

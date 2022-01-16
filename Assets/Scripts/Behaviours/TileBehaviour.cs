@@ -27,7 +27,11 @@ public class TileBehaviour : MonoBehaviour
             PlayerBehaviour playerBehav = col.GetComponent<PlayerBehaviour>();
             objectInTile = col.transform.gameObject;
             playerBehav.SetMyCurrentTile(this.transform.gameObject);
-
+        }
+        if (col.tag == "Item")
+        {
+            ItemBehaviour itemBehav = col.GetComponent<ItemBehaviour>();
+            objectInTile = col.transform.gameObject;
         }
     }
     private void OnTriggerExit(Collider col)
@@ -93,4 +97,5 @@ public class TileBehaviour : MonoBehaviour
         else
             return false;
     }
+    public void SetPlayerStart(bool v) { playerStart = v; }
 }
