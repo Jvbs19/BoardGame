@@ -53,6 +53,14 @@ public class GridGenerator : MonoBehaviour
                     tile.GetComponent<TileBehaviour>().SetPlayerStart(true);
                     tile.name += " START";
                 }
+                else
+                {
+                    int v = Random.Range(1, 6);
+                    if (v == 1 || v == 6)
+                    {
+                        tile.GetComponent<TileBehaviour>().SetSpawnItem(true);
+                    }
+                }
 
                 gridTiles.Add(tile);
             }
@@ -60,13 +68,13 @@ public class GridGenerator : MonoBehaviour
         isGridComplete = true;
     }
     public bool IsGridComplete() { return isGridComplete; }
-    public Transform[] GetPlayerStartPositions() 
+    public Transform[] GetPlayerStartPositions()
     {
         Transform[] startPos = new Transform[2];
         int i = 0;
         foreach (GameObject tile in gridTiles)
         {
-            if (tile.GetComponent<TileBehaviour>().IsStartPosition()) 
+            if (tile.GetComponent<TileBehaviour>().IsStartPosition())
             {
                 startPos[i] = tile.transform;
                 i++;
@@ -74,5 +82,28 @@ public class GridGenerator : MonoBehaviour
         }
 
         return startPos;
+    }
+
+    public TileBehaviour[] SpawnTiles() 
+    {
+        int i = 0;
+        foreach (GameObject tile in gridTiles)
+        {
+            if (tile.GetComponent<TileBehaviour>().CanSpawnItem())
+            {
+                i++;
+            }
+        }
+        TileBehaviour[] tiles = new TileBehaviour[i];
+        int j = 0;
+        foreach (GameObject tile in gridTiles)
+        {
+            if (tile.GetComponent<TileBehaviour>().CanSpawnItem())
+            {
+                tiles[j] = tile.GetComponent<TileBehaviour>();
+                j++;
+            }
+        }
+        return tiles;
     }
 }

@@ -12,7 +12,13 @@ public class GameMaster : MonoBehaviour
 
     [Header("Spawn")]
     [SerializeField]
+    PlayerStatus[] playersBehaviours;
+    [SerializeField]
     GameObject playerPrefab;
+    [SerializeField]
+    GameObject itemPrefab;
+    [SerializeField]
+    ItemStatus[] itensBehaviours;
 
     Transform[] startingPos;
 
@@ -25,7 +31,7 @@ public class GameMaster : MonoBehaviour
     [SerializeField]
     PlayerUIBehaviour PlayerUI;
     [SerializeField]
-    GameObject GameOverUI;
+    GameOverUIBehaviour GameOverUI;
     [SerializeField]
     GameObject LoadingPanelUI;
 
@@ -61,7 +67,17 @@ public class GameMaster : MonoBehaviour
         for (int i = 0; i < MaxPlayerInGame; i++)
         {
             GameObject player = Instantiate(playerPrefab);
-            playerPrefab.transform.position = new Vector3(startingPos[i].position.x, playerPrefab.transform.position.y, startingPos[i].position.z);
+            player.transform.position = new Vector3(startingPos[i].position.x, playerPrefab.transform.position.y, startingPos[i].position.z);
+            player.GetComponent<PlayerBehaviour>().SetInitialStatus(playersBehaviours[Random.Range(0, playersBehaviours.Length - 1)]);
+        }
+
+        TileBehaviour[] tiles = gridGenerator.SpawnTiles();
+
+        for (int i = 0; i < tiles.Length; i++)
+        {
+           GameObject item = Instantiate(itemPrefab);
+           item.transform.position = new Vector3(tiles[i].transform.position.x, item.transform.position.y, tiles[i].transform.position.z);
+            item.GetComponent<ItemBehaviour>().SetStatus(itensBehaviours[Random.Range(0, itensBehaviours.Length - 1)]);
         }
 
         playersInGame = GameObject.FindGameObjectsWithTag("Player");
@@ -104,7 +120,7 @@ public class GameMaster : MonoBehaviour
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit))//, mouseCastLayer))
+        if (Physics.Raycast(ray, out hit, mouseCastLayer))
         {
             if (hit.transform.tag == "Tile")
             {
@@ -174,7 +190,7 @@ public class GameMaster : MonoBehaviour
             else
             {
                 enemyWins = enemyDices.Length - currentPlayerDices.Length;
-                for (int i = 0; i < enemyDices.Length; i++)
+                for (int i = 0; i < currentPlayerDices.Length; i++)
                 {
                     if (currentPlayerDices[i] >= enemyDices[i])
                         currentPlayerWins++;
@@ -199,10 +215,16 @@ public class GameMaster : MonoBehaviour
                 EndTurn();
         }
     }
-    void EndGame()
+    void EndGame(bool winnerRed)
     {
         Debug.Log("Game Ended");
-        GameOverUI.SetActive(true);
+
+        SetPlayerUI();
+
+        GameOverUI.gameObject.SetActive(true);
+
+        GameOverUI.ShowWinner(winnerRed);
+
         gameOver = true;
     }
     #endregion
@@ -248,11 +270,20 @@ public class GameMaster : MonoBehaviour
     {
         Target.DealDamage((int)Attacker.GetAtk());
 
-        if (Target.GetIsDead() || Attacker.GetIsDead())
+        if (Target.GetIsDead())
         {
-            EndGame();
+            if (Target.transform.GetChild(0).GetComponent<MeshRenderer>().material.color == Color.red)
+                EndGame(false);
+            else
+                EndGame(true);
         }
-
+        else if (Attacker.GetIsDead())
+        {
+            if (Attacker.transform.GetChild(0).GetComponent<MeshRenderer>().material.color == Color.red)
+                EndGame(false);
+            else
+                EndGame(true);
+        }
     }
     void ShowResult(int[] a)
     {

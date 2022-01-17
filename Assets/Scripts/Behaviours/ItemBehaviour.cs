@@ -54,4 +54,9 @@ public class ItemBehaviour : MonoBehaviour
             UseItem(playerBehav);
         }
     }
+
+    public void SetStatus(ItemStatus stats) 
+    {
+        status = stats;
+    }
 }

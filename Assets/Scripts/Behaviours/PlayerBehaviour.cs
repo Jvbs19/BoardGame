@@ -146,6 +146,10 @@ public class PlayerBehaviour : MonoBehaviour
     #endregion
 
     #region Set
+    public void SetInitialStatus(PlayerStatus p) 
+    {
+        status = p;
+    }
     public void DealDamage(int damage)
     {
         currentHP -= damage;
