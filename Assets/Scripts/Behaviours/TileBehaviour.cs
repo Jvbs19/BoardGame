@@ -11,8 +11,9 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 10)]
     float castDistance = 1.2f;
-    [SerializeField]
-    bool playerStart;
+
+    bool playerStart, spawnItem;
+
     void Start()
     {
         StartCoroutine(FindAjacents());
@@ -98,4 +99,6 @@ public class TileBehaviour : MonoBehaviour
     }
     public void SetPlayerStart(bool v) { playerStart = v; }
     public bool IsStartPosition() { return playerStart; }
+    public void SetSpawnItem(bool v) { spawnItem = v; }
+    public bool CanSpawnItem() { return spawnItem; }
 }

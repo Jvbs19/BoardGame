@@ -24,6 +24,10 @@ public class GameMaster : MonoBehaviour
     [Header("UI")]
     [SerializeField]
     PlayerUIBehaviour PlayerUI;
+    [SerializeField]
+    GameObject GameOverUI;
+    [SerializeField]
+    GameObject LoadingPanelUI;
 
     bool gameOver;
     void Start()
@@ -84,9 +88,10 @@ public class GameMaster : MonoBehaviour
             playersInGame[1].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
         }
 
-
         SetPlayerUI();
         SwitchCameraTarget();
+
+        LoadingPanelUI.SetActive(false);
     }
     void MovimentCast()
     {
@@ -184,17 +189,22 @@ public class GameMaster : MonoBehaviour
                 Damage(enemy, currentPlayingPlayer);
 
             currentPlayingPlayer.AddHits(-1);
+
+            currentPlayingPlayer.AddMoviment(-1);
+
             SetPlayerUI();
 
             Debug.Log("Battle Ended");
+            if (!currentPlayingPlayer.CanMovePlayer())
+                EndTurn();
         }
     }
     void EndGame()
     {
         Debug.Log("Game Ended");
+        GameOverUI.SetActive(true);
         gameOver = true;
     }
-
     #endregion
 
     #region Assistents
@@ -236,7 +246,7 @@ public class GameMaster : MonoBehaviour
 
     void Damage(PlayerBehaviour Target, PlayerBehaviour Attacker)
     {
-        Target.AddHP(-(int)Attacker.GetAtk());
+        Target.DealDamage((int)Attacker.GetAtk());
 
         if (Target.GetIsDead() || Attacker.GetIsDead())
         {
