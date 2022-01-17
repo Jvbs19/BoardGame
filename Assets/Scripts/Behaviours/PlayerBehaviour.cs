@@ -146,6 +146,16 @@ public class PlayerBehaviour : MonoBehaviour
     #endregion
 
     #region Set
+    public void DealDamage(int damage)
+    {
+        currentHP -= damage;
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+
+            SetIsDead(true);
+        }
+    }
     public void SetCanAttack(bool atk) { canAttack = atk; }
     public void SetIsDead(bool dead) { isDead = dead; }
     public void SetUsingItem(bool use) { usingItem = use; }

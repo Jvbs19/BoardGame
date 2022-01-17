@@ -24,14 +24,17 @@ public class GameMaster : MonoBehaviour
     [Header("UI")]
     [SerializeField]
     PlayerUIBehaviour PlayerUI;
+
+    bool gameOver;
     void Start()
     {
         StartCoroutine(SetupPlayers());
     }
     void Update()
     {
-        if (currentPlayingPlayer != null)
-            CheckUp();
+        if (!gameOver)
+            if (currentPlayingPlayer != null)
+                CheckUp();
     }
     void CheckUp()
     {
@@ -107,7 +110,7 @@ public class GameMaster : MonoBehaviour
                     if (tile.GetObjectInTile() != null)
                         if (tile.GetObjectInTile().tag == "Player")
                         {
-                            PlayerBattle(tile.GetComponent<PlayerBehaviour>());
+                            PlayerBattle(tile.GetObjectInTile().GetComponent<PlayerBehaviour>());
                             return;
                         }
 
@@ -127,13 +130,69 @@ public class GameMaster : MonoBehaviour
         SwitchCameraTarget();
         SetPlayerUI();
     }
-
-    void PlayerBattle(PlayerBehaviour Enemy)
+    void PlayerBattle(PlayerBehaviour enemy)
     {
-        if (currentPlayingPlayer.GetCanAttack()) 
+        if (currentPlayingPlayer.GetCanAttack())
         {
-        
+            Debug.Log("Battle Started");
+            int[] currentPlayerDices = new int[currentPlayingPlayer.GetDices()];
+            int[] enemyDices = new int[enemy.GetDices()];
+
+            for (int i = 0; i < currentPlayerDices.Length; i++)
+            {
+                currentPlayerDices[i] = Random.Range(1, 20);
+            }
+            Sort(currentPlayerDices);
+
+            for (int i = 0; i < enemyDices.Length; i++)
+            {
+                enemyDices[i] = Random.Range(1, 20);
+            }
+            Sort(enemyDices);
+
+            ShowResult(currentPlayerDices);
+            ShowResult(enemyDices);
+
+            int currentPlayerWins = 0, enemyWins = 0;
+
+            if (currentPlayerDices.Length > enemyDices.Length)
+            {
+                currentPlayerWins = currentPlayerDices.Length - enemyDices.Length;
+                for (int i = 0; i < enemyDices.Length; i++)
+                {
+                    if (currentPlayerDices[i] >= enemyDices[i])
+                        currentPlayerWins++;
+                    else
+                        enemyWins++;
+                }
+            }
+            else
+            {
+                enemyWins = enemyDices.Length - currentPlayerDices.Length;
+                for (int i = 0; i < enemyDices.Length; i++)
+                {
+                    if (currentPlayerDices[i] >= enemyDices[i])
+                        currentPlayerWins++;
+                    else
+                        enemyWins++;
+                }
+            }
+
+            if (enemyWins > currentPlayerWins)
+                Damage(currentPlayingPlayer, enemy);
+            else
+                Damage(enemy, currentPlayingPlayer);
+
+            currentPlayingPlayer.AddHits(-1);
+            SetPlayerUI();
+
+            Debug.Log("Battle Ended");
         }
+    }
+    void EndGame()
+    {
+        Debug.Log("Game Ended");
+        gameOver = true;
     }
 
     #endregion
@@ -158,6 +217,41 @@ public class GameMaster : MonoBehaviour
     {
         PlayerUI.SetupPlayerUI(currentPlayingPlayer.GetName(), currentPlayingPlayer.GetHP().ToString(), currentPlayingPlayer.GetDices().ToString(), currentPlayingPlayer.GetAtk().ToString(), currentPlayingPlayer.GetHits().ToString(), currentPlayingPlayer.GetMoviment().ToString(), currentPlayingPlayer.GetSpeed().ToString());
     }
+
+    void Sort(int[] a)
+    {
+        for (int x = 0; x < a.Length - 1; x++)
+        {
+            for (int i = 0; i < a.Length - 1; i++)
+            {
+                if (a[i] < a[i + 1])
+                {
+                    int sup = a[i];
+                    a[i] = a[i + 1];
+                    a[i + 1] = sup;
+                }
+            }
+        }
+    }
+
+    void Damage(PlayerBehaviour Target, PlayerBehaviour Attacker)
+    {
+        Target.AddHP(-(int)Attacker.GetAtk());
+
+        if (Target.GetIsDead() || Attacker.GetIsDead())
+        {
+            EndGame();
+        }
+
+    }
+    void ShowResult(int[] a)
+    {
+        for (int i = 0; i < a.Length; i++)
+        {
+            Debug.Log("Roll " + a[i]);
+        }
+    }
+
     #endregion
 
 }
