@@ -1116,7 +1116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 54.2, z: 0}
+  m_LocalPosition: {x: 0, y: 55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1195,12 +1195,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969448064}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2121600918}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1023316134
@@ -2366,8 +2366,8 @@ MonoBehaviour:
   Grid: {fileID: 202295974}
   tilePrefab: {fileID: 1501528844473026097, guid: 1a7bc5c64951eb9448a1210d9c59c92a, type: 3}
   gridTiles: []
-  mapWidth: 3
-  mapHeight: 3
+  mapWidth: 10
+  mapHeight: 10
 --- !u!4 &1963134758
 Transform:
   m_ObjectHideFlags: 0
@@ -2663,6 +2663,7 @@ Transform:
   - {fileID: 1875401246}
   - {fileID: 1963134758}
   - {fileID: 322226543}
+  - {fileID: 969448067}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

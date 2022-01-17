@@ -81,7 +81,7 @@ public class GameMaster : MonoBehaviour
             playersInGame[1].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
         }
 
-        
+
         SetPlayerUI();
         SwitchCameraTarget();
     }
@@ -106,7 +106,10 @@ public class GameMaster : MonoBehaviour
                 {
                     if (tile.GetObjectInTile() != null)
                         if (tile.GetObjectInTile().tag == "Player")
+                        {
+                            PlayerBattle(tile.GetComponent<PlayerBehaviour>());
                             return;
+                        }
 
                     currentPlayingPlayer.MovePlayer(hit.transform);
                     SetPlayerUI();
@@ -124,6 +127,15 @@ public class GameMaster : MonoBehaviour
         SwitchCameraTarget();
         SetPlayerUI();
     }
+
+    void PlayerBattle(PlayerBehaviour Enemy)
+    {
+        if (currentPlayingPlayer.GetCanAttack()) 
+        {
+        
+        }
+    }
+
     #endregion
 
     #region Assistents

@@ -131,7 +131,15 @@ public class PlayerBehaviour : MonoBehaviour
     public int GetMoviment() { return movimentsLeft; }
     public int GetDices() { return currentDices; }
     public int GetHits() { return currentHits; }
-    public bool GetCanAttack() { return canAttack; }
+    public bool GetCanAttack()
+    {
+        if (currentHits > 0)
+            canAttack = true;
+        else
+            canAttack = false;
+
+        return canAttack;
+    }
     public bool GetIsDead() { return isDead; }
     public bool GetUsingItem() { return usingItem; }
     public bool IsSetupCompleted() { return SetupCompleted; }
