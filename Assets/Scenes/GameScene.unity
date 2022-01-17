@@ -3372,8 +3372,8 @@ MonoBehaviour:
   Grid: {fileID: 202295974}
   tilePrefab: {fileID: 1501528844473026097, guid: 1a7bc5c64951eb9448a1210d9c59c92a, type: 3}
   gridTiles: []
-  mapWidth: 10
-  mapHeight: 10
+  mapWidth: 16
+  mapHeight: 16
 --- !u!4 &1963134758
 Transform:
   m_ObjectHideFlags: 0
